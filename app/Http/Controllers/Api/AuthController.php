@@ -12,9 +12,10 @@ class AuthController extends Controller
 {
     public function register(Request $request) {
         $validated = $request->validate([
-            'username' => 'required|string|max:24',
+            'username' => 'required|string|max:24|min:3',
             'email' => 'required|email|max:144',
-            'password' => 'required|min:8|max:255|confirmed',
+            'password' => 'required|min:8|confirmed',
+            'date_of_birth' => 'date|before:yesterday',
         ]);
         return response()->json(User::create($validated));
     }
@@ -29,6 +30,8 @@ class AuthController extends Controller
         if (Auth::attempt($validated)) {
             return response()->json([
                 'token' => auth()->user()->createToken('login')->plainTextToken,
+                'id' => auth()->user()->id,
+                'username' => auth()->user()->username,
             ]);
         }
 

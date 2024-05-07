@@ -4,9 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
+use App\Models\Cat;
+use App\Models\Post;
+use App\Models\Item;
+use App\Models\Transaction;
 
 class User extends Authenticatable
 {
@@ -21,7 +30,10 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'dob',
+        'date_of_birth',
+        'exp',
+        'coins',
+        'is_admin',
     ];
 
     /**
@@ -43,4 +55,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function cat(): HasOne
+    {
+        return $this->hasOne(Cat::class);
+    }
+
+    public function transactions(): BelongsToMany {
+        return $this->belongsToMany(Transaction::class);
+    }
+
+    public function posts(): BelongsToMany {
+        return $this->belongsToMany(Post::class);
+    }
+
+    public function friends(): BelongsToMany {
+        return $this->belongsToMany(User::class, 'friendships', 'user_id_1', 'user_id_2')
+        ->withTimestamps();    
+    }
+
+    public function items(): BelongsToMany {
+        return $this->belongsToMany(Item::class);
+    }
+    
 }

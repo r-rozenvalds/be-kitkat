@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CatController;
+use App\Http\Controllers\Api\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +20,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
+
 Route::group([
     'middleware' => 'auth:sanctum',
 ], function () {
@@ -25,4 +28,12 @@ Route::group([
     Route::get('/user', function (Request $request) {
         return auth()->user();
     });
+    Route::apiResource('cat', 'App\Http\Controllers\Api\CatController')->only(['index', 'show', 'update', 'destroy']);
+    Route::apiResource('users', 'App\Http\Controllers\Api\UserController')->only(['index', 'show', 'update', 'destroy']);
+
+    Route::post('/catcreator', [CatController::class, 'store']);
+    Route::get('/cats/{id}', [CatController::class, 'checkUser']);
+    Route::get('/search', [UserController::class, 'search']);
 });
+
+
