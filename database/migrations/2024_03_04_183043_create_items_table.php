@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("color");
             $table->integer("price");
             $table->string("type");
+            $table->string("image");
         });
     }
 

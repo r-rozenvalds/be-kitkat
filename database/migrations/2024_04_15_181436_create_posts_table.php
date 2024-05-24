@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title');
-            $table->text('description');
-            $table->integer('likes');
+            $table->text('description')->nullable();
+            $table->integer('likes')->default(0);
             $table->foreignId('user_id');
+            $table->string('media')->required();
         });
     }
 

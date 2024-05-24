@@ -17,6 +17,7 @@ class Item extends Model
         'color',
         'price',
         'type',
+        'image',
     ];
 
     public function transaction() {

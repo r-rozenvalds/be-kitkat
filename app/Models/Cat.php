@@ -15,6 +15,7 @@ class Cat extends Model
     protected $fillable = [
         'color',
         'user_id',
+        'image',
     ];
 
     public function owner(): BelongsTo {

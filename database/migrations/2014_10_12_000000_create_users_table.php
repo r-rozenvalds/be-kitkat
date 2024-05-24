@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->date('date_of_birth')->nullable();
-            $table->integer('exp')->default(0);
-            $table->integer('coins')->default(0);
+            $table->integer('exp')->default(1);
+            $table->integer('coins')->default(25);
             $table->boolean('is_admin')->nullable();
             $table->string('online_status')->default('offline');
             $table->rememberToken();

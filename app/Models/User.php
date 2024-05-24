@@ -34,6 +34,7 @@ class User extends Authenticatable
         'exp',
         'coins',
         'is_admin',
+        'online_status',
     ];
 
     /**
@@ -66,12 +67,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Transaction::class);
     }
 
-    public function posts(): BelongsToMany {
-        return $this->belongsToMany(Post::class);
+    public function posts(): HasMany {
+        return $this->hasMany(Post::class);
     }
 
     public function friends(): BelongsToMany {
         return $this->belongsToMany(User::class, 'friendships', 'user_id_1', 'user_id_2')
+        ->withPivot('status')
         ->withTimestamps();    
     }
 

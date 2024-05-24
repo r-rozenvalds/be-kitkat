@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\UploadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
@@ -34,6 +35,13 @@ Route::group([
     Route::post('/catcreator', [CatController::class, 'store']);
     Route::get('/cats/{id}', [CatController::class, 'checkUser']);
     Route::get('/search', [UserController::class, 'search']);
+    Route::post('/addfriend', [UserController::class, 'friend']);
+    Route::get('user/{id}/friends', [UserController::class, 'showFriends']);
+    Route::get('user/{id}/pendingfriends', [UserController::class, 'showPendingFriends']);
+    Route::get('user/{id}/incomingfriends', [UserController::class, 'showIncomingFriends']);
+    Route::post('friendshipaccept/{id}', [UserController::class, 'acceptFriend']);
+    Route::post('friendshipdecline/{id}', [UserController::class, 'declineFriend']);
+    Route::post('user/{id}/post', [UploadController::class, 'upload']);
 });
 
 
