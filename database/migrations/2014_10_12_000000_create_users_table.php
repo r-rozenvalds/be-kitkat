@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('coins')->default(25);
             $table->boolean('is_admin')->nullable();
             $table->string('online_status')->default('offline');
+            $table->string('cover_photo')->nullable()->default('none');
             $table->rememberToken();
             $table->timestamps();
         });

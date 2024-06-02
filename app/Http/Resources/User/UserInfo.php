@@ -22,6 +22,7 @@ class UserInfo extends JsonResource
                 'is_admin' =>$this->is_admin,
                 'online_status'=>$this->online_status,
                 'created_at' => $this->created_at,
+                'cover_photo'=> $this->cover_photo,
         ];
     }
 }

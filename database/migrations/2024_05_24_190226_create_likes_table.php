@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title')->required();
-            $table->string('description')->nullable();
-            $table->string("color")->required();
-            $table->integer("price")->default(0);
-            $table->string("type")->required();
-            $table->string("image")->required();
+            $table->foreignId('post_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('active')->default(true);
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('likes');
     }
 };

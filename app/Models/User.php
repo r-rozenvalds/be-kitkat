@@ -35,6 +35,7 @@ class User extends Authenticatable
         'coins',
         'is_admin',
         'online_status',
+        'cover_photo',
     ];
 
     /**

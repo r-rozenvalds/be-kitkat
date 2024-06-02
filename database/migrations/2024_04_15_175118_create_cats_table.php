@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('color');
-            $table->foreignIdFor(User::class)->constrained()->unique();
+            $table->foreignIdFor(User::class)->constrained()->unique()->onDelete('cascade');
             $table->string('image')->nullable();
         });
     }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\User\UserInfo;
-
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -16,8 +16,12 @@ class UserController extends Controller
     public function index()
     {
         return User::all();
+
     }
 
+    public function userCount() {
+        return User::all()->count();
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -57,9 +61,19 @@ class UserController extends Controller
             'email' => 'email|max:144',
             'password' => 'min:8|confirmed',
             'date_of_birth' => 'date|before:yesterday',
+            'cover_photo' => 'mimes:jpg,jpeg,png|max:20000',
         ]);
+        
+        if($request->hasFile('cover_photo')){
+            $media_path = $request->file('cover_photo')->store('coverphoto', 'public');
+            $validated['cover_photo'] = $media_path;
+            $user->cover_photo = $validated['cover_photo'];
+            $user->save();
+            return response()->json($user);
+        }
+        
         $user->update($validated);
-        return new $user;
+        return response()->json($user);
     }
 
     /**
@@ -166,5 +180,33 @@ class UserController extends Controller
         \DB::table('friendships')->where('id', $friendshipId)->delete();
 
         return response()->json(['message' => 'friendship declined!']);
+    }
+    public function updateUserStatus($userId)
+    {
+        // Fetch the user from the database
+        $user = User::find($userId);
+
+        if ($user) {
+            // Check if the user is online by checking the cache
+            $isOnline = Cache::has('user-is-online-' . $user->id);
+
+            // Update the user's status field
+            $user->online_status = $isOnline ? 'online' : 'offline';
+            $user->save();
+
+            return response()->json($isOnline);
+        }
+
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    public function indexFriendships() {
+        return  \DB::table('friendships')
+        ->where('status', '=', 'accepted')
+        ->count();
+    }
+
+    public function mostRecentSignup() {
+        return User::latest('created_at')->first('created_at');
     }
     }
