@@ -14,7 +14,8 @@ For the front end files, see this repository:
 2. Open XAMPP (or similar web-hosting alternative), start Apache & MySQL
 3. Open the command prompt in the front-end folder and write ```npm run dev```
 4. Wait for the system to start, then open the provided link.
-5. Open the command prompt in the back-end folder and write ```php artisan serve```
-6. Wait for the back-end to start and refresh the front-end site.
+5. Migrate and seed the database using ```php artisan migrate --seed```
+6. Open the command prompt in the back-end folder and write ```php artisan serve```
+7. Wait for the back-end to start and refresh the front-end site.
 
 If the connection between front-end and back-end cannot be made, check that the correct port (DB_PORT) is written in the back-end .env file and that DB_DATABASE is a database that exists on your web-hosting application.
